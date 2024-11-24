@@ -6,4 +6,8 @@
     <string name="password_cannot_empty">password must not empty!</string>
     <string name="password_cannot_contain_space">password must not contain spaces</string>
     <string name="password_min_8_char">8 character minimum for password</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_analyzer">Analyzer</string>
+    <string name="title_setting">Setting</string>
 </resources>
