@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.mushscope.R
+import com.mushscope.data.pref.dataStore
 import com.mushscope.utils.ViewModelFactory
 
 class SettingFragment : Fragment() {
+
+    private val settingViewModel: SettingViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext().dataStore)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,19 +31,8 @@ class SettingFragment : Fragment() {
 
         val switchTheme = view.findViewById<SwitchMaterial>(R.id.switch_theme)
 
-        val settingViewModel: SettingViewModel by viewModels {
-            ViewModelFactory.getInstance(requireContext())
-        }
-
-        // Theme settings
         settingViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
-            if (isDarkModeActive) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                switchTheme.isChecked = true
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                switchTheme.isChecked = false
-            }
+            switchTheme.isChecked = isDarkModeActive
         }
 
         switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->

@@ -11,7 +11,6 @@ class SettingViewModel(
     private val pref: SettingPreference
 ) : ViewModel() {
 
-    // Theme Settings
     fun getThemeSettings(): LiveData<Boolean> {
         return pref.getThemeSetting().asLiveData()
     }
