@@ -10,4 +10,6 @@
     <string name="title_home">Home</string>
     <string name="title_analyzer">Analyzer</string>
     <string name="title_setting">Setting</string>
+    <string name="dark_mode">dark mode</string>
+    <string name="logout">logout</string>
 </resources>

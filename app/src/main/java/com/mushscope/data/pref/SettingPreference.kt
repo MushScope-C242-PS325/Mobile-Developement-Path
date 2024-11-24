@@ -14,7 +14,6 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 class SettingPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
-    private val notificationKey = booleanPreferencesKey("notification_setting")
     private val themeKey = booleanPreferencesKey("theme_setting")
 
     fun getThemeSetting(): Flow<Boolean> {
