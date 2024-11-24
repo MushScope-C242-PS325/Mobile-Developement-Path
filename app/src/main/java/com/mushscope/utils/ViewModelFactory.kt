@@ -5,6 +5,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mushscope.data.pref.SettingPreference
+import com.mushscope.data.source.UserRepository
+import com.mushscope.view.auth.AuthViewModel
 import com.mushscope.view.main.MainViewModel
 import com.mushscope.view.setting.SettingViewModel
 

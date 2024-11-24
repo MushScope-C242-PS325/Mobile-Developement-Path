@@ -69,4 +69,6 @@ dependencies {
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation ("androidx.datastore:datastore-preferences:1.1.1")
+
+    implementation ("com.github.yalantis:ucrop:2.2.8")
 }

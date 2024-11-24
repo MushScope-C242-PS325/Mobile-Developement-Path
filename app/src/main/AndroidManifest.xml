@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MushScope"
         tools:targetApi="31">
         <activity
+            android:name=".view.result.ResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -25,12 +28,19 @@
         </activity>
         <activity
             android:name=".view.welcome.WelcomeActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".view.auth.SignupActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".view.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.signup.SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.login.LoginActivity"
-            android:exported="false" />
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
+
 </manifest>

@@ -12,4 +12,26 @@
     <string name="title_setting">Setting</string>
     <string name="dark_mode">dark mode</string>
     <string name="logout">logout</string>
+    <string name="gallery">gallery</string>
+    <string name="camera">camera</string>
+    <string name="analyze">analyze</string>
+    <string name="title_login_page">welcome back!</string>
+    <string name="message_login_page">enter your information</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="title_signup_page">Complete your information below</string>
+    <string name="name">name</string>
+    <string name="signup">Signup</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="name_not_valid">name not valid</string>
+    <string name="unvalid_email">email is not valid</string>
+    <string name="reminder_valid_email">Make sure the email format is correct</string>
+    <string name="unvalid_password">password Invalid</string>
+    <string name="reminder_valid_password">Password must be at least 8 characters long and cannot contain spaces</string>
+    <string name="password_not_match">password not match</string>
+    <string name="dont_have_account_register">Dont have an account? Register</string>
+    <string name="already_have_account_login">already have account? login</string>
+    <string name="title_welcome_page">Welcome</string>
+    <string name="message_welcome_page">message</string>
 </resources>

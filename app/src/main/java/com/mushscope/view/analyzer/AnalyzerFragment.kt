@@ -13,8 +13,6 @@ class AnalyzerFragment : Fragment() {
 
     private var _binding: FragmentAnalyzerBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,16 +20,10 @@ class AnalyzerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val analyzerViewModel =
-            ViewModelProvider(this).get(AnalyzerViewModel::class.java)
 
         _binding = FragmentAnalyzerBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textAnalyzer
-        analyzerViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 
