@@ -1,4 +1,4 @@
-package com.mushscope.view.setting
+package com.mushscope.view.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import com.mushscope.R
 import com.mushscope.data.pref.dataStore
 import com.mushscope.utils.ViewModelFactory
 
-class SettingFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
-    private val settingViewModel: SettingViewModel by viewModels {
+    private val profileViewModel: ProfileViewModel by viewModels {
         ViewModelFactory.getInstance(requireContext().dataStore)
     }
 
@@ -23,7 +23,7 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_setting, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,12 +31,12 @@ class SettingFragment : Fragment() {
 
         val switchTheme = view.findViewById<SwitchMaterial>(R.id.switch_theme)
 
-        settingViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
+        profileViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
             switchTheme.isChecked = isDarkModeActive
         }
 
         switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            settingViewModel.saveThemeSetting(isChecked)
+            profileViewModel.saveThemeSetting(isChecked)
         }
     }
 }

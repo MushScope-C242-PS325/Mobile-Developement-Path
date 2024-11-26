@@ -5,10 +5,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mushscope.data.pref.SettingPreference
-import com.mushscope.data.source.UserRepository
-import com.mushscope.view.auth.AuthViewModel
 import com.mushscope.view.main.MainViewModel
-import com.mushscope.view.setting.SettingViewModel
+import com.mushscope.view.profile.ProfileViewModel
 
 class ViewModelFactory(
     private val pref: SettingPreference
@@ -17,8 +15,8 @@ class ViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
-                SettingViewModel(pref) as T
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                ProfileViewModel(pref) as T
             }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(pref) as T

@@ -1,4 +1,4 @@
-package com.mushscope.view.setting
+package com.mushscope.view.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mushscope.data.pref.SettingPreference
 import kotlinx.coroutines.launch
 
-class SettingViewModel(
+class ProfileViewModel(
     private val pref: SettingPreference
 ) : ViewModel() {
 
