@@ -35,4 +35,18 @@
     <string name="title_welcome_page">Welcome</string>
     <string name="message_welcome_page">message</string>
     <string name="title_profile">Profile</string>
+    <string name="btn_history">history</string>
+    <string name="profile_name">my name is ganteng</string>
+    <string name="profile_picture">profile picture</string>
+    <string name="image_classifier_failed">Image classifier failed to initialize. See error logs for details</string>
+    <string name="tflite_is_not_initialized_yet">tflite_is_not_initialized_yet</string>
+    <string name="after_analyze">%1$s %2$s</string>
+    <string name="result">Result</string>
+    <string name="save_result">Save Result</string>
+    <string name="classification_result">Identified as %1$s with %2$s confidence</string>
+    <string name="no_results_found">No mushroom classification found</string>
+    <string name="tflite_initialization_error">TensorFlow Lite initialization failed: %1$s</string>
+    <string name="classifier_not_initialized">Image classifier could not be initialized</string>
+    <string name="classification_failed">Image classification failed</string>
+    <string name="classification_error">Classification error: %1$s</string>
 </resources>
