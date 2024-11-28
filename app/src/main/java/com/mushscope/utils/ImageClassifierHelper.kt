@@ -2,11 +2,13 @@ package com.mushscope.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.util.Log
 import com.mushscope.R
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.CastOp
@@ -14,13 +16,14 @@ import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.task.core.BaseOptions
+import org.tensorflow.lite.task.vision.classifier.Classifications
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 import java.io.FileInputStream
 
 class ImageClassifierHelper(
     private var threshold: Float = 0.4f,
     private var maxResult: Int = 3,
-    private val modelName: String = "mushroom_modelV3_with_metadata.tflite",
+    private val modelName: String = "adjust-softmax-metadata.tflite",
     val context: Context,
     val classifierListener: ClassifierListener
 ) {
@@ -61,6 +64,7 @@ class ImageClassifierHelper(
             .add(CastOp(DataType.FLOAT32))
             .build()
 
+        // Konversi Uri menjadi Bitmap
         val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, imageUri))
         } else {
@@ -72,22 +76,13 @@ class ImageClassifierHelper(
         val results = imageClassifier?.classify(tensorImage)
         val inferenceTime = SystemClock.uptimeMillis() - inferenceStart
 
-        if (!results.isNullOrEmpty()) {
-            val probability = results[0].categories[0].score
-
-            // Interpretasikan hasil probabilitas
-            val classification = if (probability > threshold) "poisonous" else "edible"
-
-            // Kirim hasil klasifikasi
-            classifierListener.onResults(classification, probability, inferenceTime)
-        } else {
-            // Jika tidak ada hasil, asumsikan edible
-            classifierListener.onResults("edible", threshold, inferenceTime)
+        if (results != null) {
+            classifierListener.onResults(results, inferenceTime)
         }
     }
 
     interface ClassifierListener {
         fun onError(error: String)
-        fun onResults(classification: String, probability: Float, inferenceTime: Long)
+        fun onResults(results: List<Classifications>, inferenceTime: Long)
     }
 }

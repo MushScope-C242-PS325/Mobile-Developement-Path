@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MainViewModel by viewModels {
-        ViewModelFactory.getInstance(this.dataStore)
+        ViewModelFactory.getInstance(this)
     }
 
     override fun attachBaseContext(newBase: Context) {

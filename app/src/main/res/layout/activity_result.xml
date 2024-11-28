@@ -35,13 +35,13 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"/>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#FFCFEF"
             android:text="@string/save_result"
-            android:layout_marginTop="16dp"
-            android:enabled="false"/>
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </ScrollView>
