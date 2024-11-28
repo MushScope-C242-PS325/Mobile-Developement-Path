@@ -11,6 +11,7 @@ import com.mushscope.data.local.entity.HistoryEntity
 import com.mushscope.databinding.ActivityResultBinding
 import com.mushscope.utils.ImageClassifierHelper
 import com.mushscope.utils.ViewModelFactory
+import com.mushscope.utils.uriToFile
 import com.mushscope.view.history.HistoryViewModel
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.io.File
@@ -77,32 +78,11 @@ class ResultActivity : AppCompatActivity() {
         val history = HistoryEntity(
             result = getString(R.string.result_history, predictedLabel),
             confidenceScore = getString(R.string.conf_score_history, confidenceScore),
-            imagePath = uriToFile(uriImage).toString()
+            imagePath = uriToFile(uriImage, this).toString()
         )
         viewModel.insertHistory(history)
         showToast("Result is saved to History")
         finish()
-    }
-
-    private fun uriToFile(imageUri: Uri): String? {
-        val fileName = "img_${System.currentTimeMillis()}.jpg"
-        val destinationFile = File(this.filesDir, fileName)
-        return try {
-            this.contentResolver.openInputStream(imageUri)?.use { inputStream ->
-                FileOutputStream(destinationFile).use { outputStream ->
-                    val buffer = ByteArray(1024)
-                    var length: Int
-                    while (inputStream.read(buffer).also { length = it } != -1) {
-                        outputStream.write(buffer, 0, length)
-                    }
-                    outputStream.flush()
-                    destinationFile.absolutePath
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
     }
 
     private fun showToast(message: String) {

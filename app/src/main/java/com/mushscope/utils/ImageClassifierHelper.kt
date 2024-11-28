@@ -71,6 +71,8 @@ class ImageClassifierHelper(
             MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
         }.copy(Bitmap.Config.ARGB_8888, true)
 
+        Log.d("ImageClassifier", "Processing image: $imageUri")
+
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
         val inferenceStart = SystemClock.uptimeMillis()
         val results = imageClassifier?.classify(tensorImage)

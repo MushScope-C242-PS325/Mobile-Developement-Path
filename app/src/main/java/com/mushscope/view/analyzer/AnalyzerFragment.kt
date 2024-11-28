@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mushscope.databinding.FragmentAnalyzerBinding
+import com.mushscope.utils.getImageUri
 import com.mushscope.view.result.ResultActivity
 import com.yalantis.ucrop.UCrop
 import java.io.File
@@ -46,6 +47,9 @@ class AnalyzerFragment : Fragment() {
         // Set up click listeners
         binding.btnGallery.setOnClickListener {
             startGallery()
+        }
+        binding.btnCamera.setOnClickListener {
+            startCamera()
         }
         binding.btnAnalyze.setOnClickListener {
             viewModel.currentImgUri.value?.let { uri ->
@@ -83,6 +87,25 @@ class AnalyzerFragment : Fragment() {
             UCrop.getError(result.data!!)?.let { error ->
                 showToast(error.message.toString())
             }
+        }
+    }
+
+    private fun startCamera() {
+        val uri = getImageUri(requireContext())
+        Log.d("Camera URI", "URI created: $uri")
+        viewModel.setCurrentImage(uri)
+        launcherIntentCamera.launch(uri)
+    }
+
+    private val launcherIntentCamera = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { isSuccess ->
+        if (isSuccess) {
+            viewModel.currentImgUri.value?.let { uri ->
+                launchUcrop(uri)
+            }
+        } else {
+            viewModel.setCurrentImage(null)
         }
     }
 
