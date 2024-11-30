@@ -12,10 +12,7 @@ import com.mushscope.databinding.ActivityResultBinding
 import com.mushscope.utils.ImageClassifierHelper
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.utils.uriToFile
-import com.mushscope.view.history.HistoryViewModel
 import org.tensorflow.lite.task.vision.classifier.Classifications
-import java.io.File
-import java.io.FileOutputStream
 import java.text.NumberFormat
 
 class ResultActivity : AppCompatActivity() {
@@ -43,7 +40,6 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun analyzeImage(uriImage: Uri) {
-        // Initialize the image classifier helper
         imageClassifierHelper = ImageClassifierHelper(
             context = this,
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
@@ -52,12 +48,22 @@ class ResultActivity : AppCompatActivity() {
                 }
 
                 override fun onResults(results: List<Classifications>, inferenceTime: Long) {
+                    Log.d("ImageClassification", "Inference Time: $inferenceTime ms")
+
                     if (results.isNotEmpty() && results[0].categories.isNotEmpty()) {
+                        // Log all categories with their scores
+                        results[0].categories.forEachIndexed { index, category ->
+                            Log.d("ImageClassification", "Category $index: Label = ${category.label}, Score = ${category.score}")
+                        }
+
                         val sortedCategories = results[0].categories.sortedByDescending { it.score }
                         val predictedLabel = sortedCategories[0].label
                         val confidenceScore = NumberFormat.getPercentInstance()
                             .format(sortedCategories[0].score)
                             .trim()
+
+                        Log.d("ImageClassification", "Predicted Label: $predictedLabel")
+                        Log.d("ImageClassification", "Confidence Score: $confidenceScore")
 
                         binding.resultText.text = getString(R.string.after_analyze, predictedLabel, confidenceScore)
 
@@ -65,12 +71,12 @@ class ResultActivity : AppCompatActivity() {
                             saveResultToHistory(uriImage, predictedLabel, confidenceScore)
                         }
                     } else {
+                        Log.e("ImageClassification", "No classification results found")
                         showToast("No results found.")
                     }
                 }
             }
         )
-        // Start the classification process
         imageClassifierHelper.classifyStaticImage(uriImage)
     }
 

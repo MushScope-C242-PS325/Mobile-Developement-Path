@@ -2,6 +2,7 @@ package com.mushscope.view.auth
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -10,16 +11,20 @@ import android.util.Patterns
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.mushscope.R
 import com.mushscope.databinding.ActivityLoginBinding
+import com.mushscope.utils.ViewModelFactory
+import com.mushscope.view.main.MainActivity
+import com.mushscope.data.source.Result
 
 class LoginActivity : AppCompatActivity() {
-//    private val viewModel by viewModels<AuthViewModel> {
-//        ViewModelFactory.getInstance(this)
-//    }
+    private val viewModel by viewModels<AuthViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +72,32 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else -> {
                     showLoading(true)
+                    viewModel.login(email, password).observe(this) { result ->
+                        when (result) {
+                            is Result.Success -> {
+                                showLoading(false)
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Yeah!")
+                                    setMessage(getString(R.string.message_after_login))
+                                    setPositiveButton(getString(R.string.enter)) { _, _ ->
+                                        val intent = Intent(context, MainActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                    create()
+                                    show()
+                                }
+                            }
+                            is Result.Error -> {
+                                showLoading(false)
+                                showError(getString(R.string.login_failed), result.error)
+                            }
+                            is Result.Loading -> {
+                                showLoading(true)
+                            }
+                        }
+                    }
                 }
             }
         }

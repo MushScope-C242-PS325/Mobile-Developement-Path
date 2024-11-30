@@ -2,29 +2,76 @@ package com.mushscope.view.auth
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.res.ColorStateList
-import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
 import com.mushscope.R
 import com.mushscope.databinding.ActivitySignupBinding
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.data.source.Result
+import com.mushscope.utils.uriToFile
+import com.mushscope.utils.reduceFileImage
+import com.yalantis.ucrop.UCrop
+import java.io.File
 
 class SignupActivity : AppCompatActivity() {
-//    private val viewModel by viewModels<AuthViewModel> {
-//        ViewModelFactory.getInstance(this)
-//    }
+    private val viewModel by viewModels<AuthViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     private lateinit var binding: ActivitySignupBinding
+    private var currentImageFile: File? = null
+    private var imageUri: Uri? = null
+
+    private val galleryLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            imageUri = it
+            launchUcrop(it)
+        }
+    }
+
+    private val launcherUCrop = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            result.data?.let {
+                val croppedUri = UCrop.getOutput(it)
+                croppedUri?.let { uri ->
+                    imageUri = uri
+                    binding.imgSignup.setImageURI(uri)
+                    currentImageFile = uriToFile(uri, this).reduceFileImage()
+                }
+            }
+        } else if (result.resultCode == UCrop.RESULT_ERROR) {
+            UCrop.getError(result.data!!)?.let { error ->
+                showError("Crop Error", error.message.toString())
+            }
+        }
+    }
+
+    private fun launchUcrop(uri: Uri) {
+        val destinationUri = Uri.fromFile(File.createTempFile("cropped_", ".jpg", cacheDir))
+        val uCropIntent = UCrop.of(uri, destinationUri)
+            .getIntent(this)
+        launcherUCrop.launch(uCropIntent)
+    }
+
+    private fun openGallery() {
+        galleryLauncher.launch("image/*")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +80,7 @@ class SignupActivity : AppCompatActivity() {
 
         setupView()
         setupAction()
+        setupImageSelection()
         playAnimation()
     }
 
@@ -49,19 +97,25 @@ class SignupActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
+    private fun setupImageSelection() {
+        binding.imgSignup.setOnClickListener {
+            openGallery()
+        }
+    }
+
     private fun setupAction() {
         binding.signupButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            val confirmPassword = binding.confirmEditText.text.toString() // Tambahkan ini
+            val confirmPassword = binding.confirmEditText.text.toString()
 
             resetErrorState()
 
             when {
                 name.isEmpty() -> {
                     showFieldError(binding.nameEditTextLayout, getString(R.string.name_cannot_empty))
-                    showError(getString(R.string.name_not_valid), getString(R.string.name_cannot_empty))
+                    showError(getString(R.string.unvalid_email), getString(R.string.name_cannot_empty))
                 }
                 !isEmailValid(email) -> {
                     showFieldError(binding.emailEditTextLayout, getString(R.string.unvalid_email_format))
@@ -71,12 +125,43 @@ class SignupActivity : AppCompatActivity() {
                     showFieldError(binding.passwordEditTextLayout, getString(R.string.password_min_8_char))
                     showError(getString(R.string.unvalid_password), getString(R.string.reminder_valid_password))
                 }
-                !isConfirmPasswordValid(password, confirmPassword) -> { // Tambahkan validasi ini
+                !isConfirmPasswordValid(password, confirmPassword) -> {
                     showFieldError(binding.confirmEditTextLayout, getString(R.string.password_not_match))
                     showError(getString(R.string.unvalid_password), getString(R.string.password_not_match))
                 }
+                currentImageFile == null -> {
+                    showError(getString(R.string.image_required), getString(R.string.please_select_image))
+                }
                 else -> {
                     showLoading(true)
+                    val photoUrl = currentImageFile?.path ?: ""
+                    viewModel.register(name, email, password, photoUrl).observe(this, Observer { result ->
+                        when (result) {
+                            is Result.Success -> {
+                                showLoading(false)
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Yeah!")
+                                    setMessage(getString(R.string.account_cretaed_message, email))
+                                    setPositiveButton(getString(R.string.enter)) { _, _ ->
+                                        finish()
+                                    }
+                                    create()
+                                    show()
+                                }
+                            }
+                            is Result.Error -> {
+                                showLoading(false)
+                                showError(getString(R.string.registration_failed), result.error)
+                            }
+                            is Result.Loading -> {
+                                showLoading(true)
+                            }
+                            else -> {
+                                showLoading(false)
+                                showError("Unknown Error", "An unexpected error occurred")
+                            }
+                        }
+                    })
                 }
             }
         }
@@ -89,8 +174,6 @@ class SignupActivity : AppCompatActivity() {
 
     private fun showFieldError(layout: TextInputLayout, error: String) {
         layout.error = error
-        layout.setErrorTextColor(ColorStateList.valueOf(Color.RED))
-        layout.boxStrokeColor = Color.RED
     }
 
     private fun resetErrorState() {
@@ -100,10 +183,8 @@ class SignupActivity : AppCompatActivity() {
             binding.passwordEditTextLayout
         ).forEach { field ->
             field.error = null
-            field.boxStrokeColor = Color.GRAY
         }
     }
-
 
     private fun showError(title: String, message: String) {
         AlertDialog.Builder(this).apply {
@@ -137,24 +218,15 @@ class SignupActivity : AppCompatActivity() {
         }.start()
 
         val title = ObjectAnimator.ofFloat(binding.tvTitleSignup, View.ALPHA, 1f).setDuration(100)
-        val nameTextView =
-            ObjectAnimator.ofFloat(binding.tvNameSignup, View.ALPHA, 1f).setDuration(100)
-        val nameEditTextLayout =
-            ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(100)
-        val emailTextView =
-            ObjectAnimator.ofFloat(binding.tvEmailSignup, View.ALPHA, 1f).setDuration(100)
-        val emailEditTextLayout =
-            ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(100)
-        val passwordTextView =
-            ObjectAnimator.ofFloat(binding.tvPasswordSignup, View.ALPHA, 1f).setDuration(100)
-        val passwordEditTextLayout =
-            ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
-        val confirmTextView =
-            ObjectAnimator.ofFloat(binding.tvConfirm, View.ALPHA, 1f).setDuration(100)
-        val confirmEditTextLayout =
-            ObjectAnimator.ofFloat(binding.confirmEditTextLayout, View.ALPHA, 1f).setDuration(100)
+        val nameTextView = ObjectAnimator.ofFloat(binding.tvNameSignup, View.ALPHA, 1f).setDuration(100)
+        val nameEditTextLayout = ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(100)
+        val emailTextView = ObjectAnimator.ofFloat(binding.tvEmailSignup, View.ALPHA, 1f).setDuration(100)
+        val emailEditTextLayout = ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(100)
+        val passwordTextView = ObjectAnimator.ofFloat(binding.tvPasswordSignup, View.ALPHA, 1f).setDuration(100)
+        val passwordEditTextLayout = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
+        val confirmTextView = ObjectAnimator.ofFloat(binding.tvConfirm, View.ALPHA, 1f).setDuration(100)
+        val confirmEditTextLayout = ObjectAnimator.ofFloat(binding.confirmEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(100)
-
 
         AnimatorSet().apply {
             playSequentially(

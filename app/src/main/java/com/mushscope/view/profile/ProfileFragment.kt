@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.mushscope.R
-import com.mushscope.data.pref.dataStore
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.view.history.HistoryActivity
 
@@ -34,6 +34,7 @@ class ProfileFragment : Fragment() {
 
         val switchTheme = view.findViewById<SwitchMaterial>(R.id.switch_theme)
         val btnHistory = view.findViewById<Button>(R.id.btn_history)
+        val btnLogout = view.findViewById<Button>(R.id.btn_logout)
 
         // Observe theme settings
         profileViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
@@ -50,6 +51,25 @@ class ProfileFragment : Fragment() {
             // Start the HistoryActivity
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
+        }
+
+        btnLogout.setOnClickListener {
+            showLogoutConfirmationDialog()
+        }
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.logout))
+            setMessage(getString(R.string.logout_confirmation))
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                profileViewModel.logout()
+            }
+            setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            create()
+            show()
         }
     }
 

@@ -18,7 +18,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"this_is_base_url_for_our_app_just_wait_from_cc_team\"")
+        buildConfigField("String", "BASE_URL", "\"https://mush-scope.et.r.appspot.com/\"")
     }
 
     buildTypes {

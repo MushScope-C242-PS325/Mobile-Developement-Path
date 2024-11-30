@@ -59,4 +59,14 @@
     <string name="delete_confirmation_title">delete item</string>
     <string name="result_history">Result: %1$s</string>
     <string name="conf_score_history">Confidence Score: %1$s</string>
+    <string name="message_after_login">You successfully logged in. Ready to upload some story?</string>
+    <string name="enter">Enter</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="registration_failed">Registration Failed</string>
+    <string name="account_cretaed_message">The account with %1$s has been created. Let’s log in and upload some stories.</string>
+    <string name="image_required">image required</string>
+    <string name="please_select_image">please select image</string>
+    <string name="logout_confirmation">logout?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
 </resources>

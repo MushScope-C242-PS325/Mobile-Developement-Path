@@ -6,8 +6,6 @@ import com.mushscope.data.source.HistoryRepository
 import kotlinx.coroutines.launch
 
 class ResultViewModel(private val historyRepository: HistoryRepository): ViewModel() {
-    fun getHistory() = historyRepository.getHistory()
-
     fun insertHistory(historyEntity: HistoryEntity) = viewModelScope.launch {
         historyRepository.insertHistory(historyEntity)
     }

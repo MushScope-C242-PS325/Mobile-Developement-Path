@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.mushscope.data.pref.SettingPreference
+import com.mushscope.data.pref.ThemePreference
+import com.mushscope.data.source.UserRepository
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val pref: SettingPreference
+    private val pref: ThemePreference,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     fun getThemeSettings(): LiveData<Boolean> {
@@ -18,6 +20,12 @@ class ProfileViewModel(
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
             pref.saveThemeSetting(isDarkModeActive)
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            userRepository.logout()
         }
     }
 }
