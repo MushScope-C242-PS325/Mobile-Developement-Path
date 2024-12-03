@@ -23,6 +23,6 @@ data class LoginResult(
     @field:SerializedName("token")
     val token: String? = null,
 
-    @SerializedName("photo_url")
+    @field:SerializedName("photo_url")
     val photoUrl: String? = null
 )

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mushscope.data.pref.ThemePreference
+import com.mushscope.data.pref.UserModel
 import com.mushscope.data.source.UserRepository
 import kotlinx.coroutines.launch
 
@@ -27,5 +28,8 @@ class ProfileViewModel(
         viewModelScope.launch {
             userRepository.logout()
         }
+    }
+    fun getUserSession(): LiveData<UserModel> {
+        return userRepository.getSession().asLiveData()
     }
 }

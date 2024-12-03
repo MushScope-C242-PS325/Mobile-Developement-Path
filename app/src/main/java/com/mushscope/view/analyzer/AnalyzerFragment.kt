@@ -38,13 +38,11 @@ class AnalyzerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observe changes to the image URI
         viewModel.currentImgUri.observe(viewLifecycleOwner) { uri ->
             uri?.let {
-                showImage(it)  // Show cropped image in preview
+                showImage(it)
             }
         }
-        // Set up click listeners
         binding.btnGallery.setOnClickListener {
             startGallery()
         }
@@ -66,7 +64,7 @@ class AnalyzerFragment : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
-            launchUcrop(uri)  // Launch UCrop with the selected image
+            launchUcrop(uri)
         } else {
             Log.d("Photo Picker", "No media selected")
             showToast("No image selected.")

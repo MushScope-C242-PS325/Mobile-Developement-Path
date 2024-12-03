@@ -16,6 +16,7 @@ constraintlayout = "2.2.0"
 navigationFragmentKtxVersion = "2.7.7"
 navigationUiKtxVersion = "2.7.7"
 picasso = "2.8"
+picassoTransformations = "2.4.0"
 playServicesTfliteGpu = "16.2.0"
 playServicesTfliteImpl = "16.2.0"
 playServicesTfliteJava = "16.3.0"
@@ -51,6 +52,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+picasso-transformations = { module = "jp.wasabeef:picasso-transformations", version.ref = "picassoTransformations" }
 play-services-tflite-gpu = { module = "com.google.android.gms:play-services-tflite-gpu", version.ref = "playServicesTfliteGpu" }
 play-services-tflite-impl = { module = "com.google.android.gms:play-services-tflite-impl", version.ref = "playServicesTfliteImpl" }
 play-services-tflite-java = { module = "com.google.android.gms:play-services-tflite-java", version.ref = "playServicesTfliteJava" }

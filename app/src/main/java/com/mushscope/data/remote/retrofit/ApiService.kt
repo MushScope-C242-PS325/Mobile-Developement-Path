@@ -1,10 +1,8 @@
 package com.mushscope.data.remote.retrofit
 
 import com.mushscope.data.remote.request.LoginRequest
-import com.mushscope.data.remote.request.RegisterRequest
 import com.mushscope.data.remote.response.AuthResponse
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Multipart
 import retrofit2.http.POST

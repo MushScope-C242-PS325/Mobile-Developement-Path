@@ -1,6 +1,5 @@
 package com.mushscope.view.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels

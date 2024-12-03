@@ -8,14 +8,12 @@ import com.google.gson.Gson
 import com.mushscope.data.pref.UserModel
 import com.mushscope.data.pref.UserPreference
 import com.mushscope.data.remote.request.LoginRequest
-import com.mushscope.data.remote.request.RegisterRequest
 import com.mushscope.data.remote.response.AuthResponse
 import com.mushscope.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class UserRepository private constructor(
@@ -25,13 +23,11 @@ class UserRepository private constructor(
     fun register(name: String, email: String, password: String, photoPath: String): LiveData<Result<AuthResponse>> = liveData {
         emit(Result.Loading)
         try {
-            // Prepare photo as MultipartBody.Part
             val photoPart = File(photoPath).let { file ->
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                 MultipartBody.Part.createFormData("photo", file.name, requestFile)
             }
 
-            // Call API
             val response = apiService.register(name, email, password, photoPart)
 
             if (response.error==false) {
@@ -40,7 +36,9 @@ class UserRepository private constructor(
                         UserModel(
                             email = email,
                             token = it.token ?: "",
-                            isLogin = true
+                            isLogin = true,
+                            name = it.name,
+                            photoUrl = it.photoUrl
                         )
                     )
                 }
@@ -64,12 +62,15 @@ class UserRepository private constructor(
 
             if (response.error == false) {
                 val loginResult = response.loginResult
+                Log.d("RegisterResponse", "Full Response: $response")
+                Log.d("RegisterResponse", "LoginResult: ${response.loginResult}")
                 loginResult?.let {
-                    // Save session
                     val user = UserModel(
                         email = email,
                         token = it.token ?: "",
-                        isLogin = true
+                        isLogin = true,
+                        name = it.name,
+                        photoUrl = it.photoUrl
                     )
                     saveSession(user)
                 }

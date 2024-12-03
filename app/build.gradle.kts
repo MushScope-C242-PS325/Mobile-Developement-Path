@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation (libs.picasso)
+    implementation (libs.picasso.transformations)
+
 
     implementation (libs.androidx.navigation.fragment.ktx.v277)
     implementation (libs.androidx.navigation.ui.ktx.v277)

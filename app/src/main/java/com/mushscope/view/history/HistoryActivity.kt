@@ -2,11 +2,8 @@ package com.mushscope.view.history
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -19,9 +16,9 @@ import java.io.File
 
 class HistoryActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHistoryBinding // Binding untuk layout activity
+    private lateinit var binding: ActivityHistoryBinding
     private val viewModel: HistoryViewModel by viewModels {
-        ViewModelFactory.getInstance(this) // `this` adalah context Activity
+        ViewModelFactory.getInstance(this)
     }
 
     private val historyAdapter: HistoryAdapter by lazy {

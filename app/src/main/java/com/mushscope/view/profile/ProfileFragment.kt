@@ -2,20 +2,24 @@ package com.mushscope.view.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.mushscope.R
+import com.mushscope.databinding.FragmentProfileBinding
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.view.history.HistoryActivity
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 class ProfileFragment : Fragment() {
+
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
     private val profileViewModel: ProfileViewModel by viewModels {
         ViewModelFactory.getInstance(requireContext())
@@ -25,35 +29,52 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val switchTheme = view.findViewById<SwitchMaterial>(R.id.switch_theme)
-        val btnHistory = view.findViewById<Button>(R.id.btn_history)
-        val btnLogout = view.findViewById<Button>(R.id.btn_logout)
+        // Observe user session
+        profileViewModel.getUserSession().observe(viewLifecycleOwner) { userModel ->
+            Log.d("ProfileFragment", "Photo URL: ${userModel.photoUrl}")
+            // Update name
+            binding.tvName.text = userModel.name ?: getString(R.string.profile_name)
+
+            // Update profile photo if available
+            if (!userModel.photoUrl.isNullOrBlank()) {
+                Picasso.get()
+                    .load(userModel.photoUrl)
+                    .placeholder(R.drawable.ic_foto_profile)
+                    .error(R.drawable.ic_foto_profile)
+                    .transform(CropCircleTransformation()) // Apply circle transformation
+                    .into(binding.imgProfile)
+            } else {
+                // If no photo URL, set the default profile image
+                binding.imgProfile.setImageResource(R.drawable.ic_foto_profile)
+            }
+        }
 
         // Observe theme settings
-        profileViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
-            switchTheme.isChecked = isDarkModeActive
+        profileViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
+            binding.switchTheme.isChecked = isDarkModeActive
         }
 
         // Set the listener for the theme switch
-        switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
             profileViewModel.saveThemeSetting(isChecked)
         }
 
         // Set the click listener for the history button
-        btnHistory.setOnClickListener {
-            // Start the HistoryActivity
+        binding.btnHistory.setOnClickListener {
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }
 
-        btnLogout.setOnClickListener {
+        // Set the click listener for the logout button
+        binding.btnLogout.setOnClickListener {
             showLogoutConfirmationDialog()
         }
     }
@@ -73,4 +94,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

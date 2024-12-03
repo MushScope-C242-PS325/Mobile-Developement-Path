@@ -20,4 +20,3 @@ object Injection {
         return UserRepository.getInstance(pref, apiService)
     }
 }
-

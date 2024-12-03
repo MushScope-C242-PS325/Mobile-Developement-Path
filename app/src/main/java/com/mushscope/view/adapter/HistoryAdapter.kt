@@ -19,20 +19,16 @@ class HistoryAdapter : ListAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIF
 
         fun bind(history: HistoryEntity) {
             with(binding) {
-                // Set the image from the file path
                 val imageFile = File(history.imagePath)
                 if (imageFile.exists()) {
                     imgHistory.setImageURI(Uri.fromFile(imageFile))
                 }
 
-                // Set the result text with confidence score
                 val resultWithConfidence = "${history.result}\n${history.confidenceScore}"
                 tvDescriptionHistory.text = resultWithConfidence
 
-                // Set content description for accessibility
                 imgHistory.contentDescription = resultWithConfidence
 
-                // Handle delete button click
                 btnDelete.setOnClickListener {
                     onDeleteClick?.invoke(history)
                 }

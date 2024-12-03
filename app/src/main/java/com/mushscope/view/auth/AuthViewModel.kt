@@ -1,8 +1,6 @@
 package com.mushscope.view.auth
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.mushscope.data.remote.response.AuthResponse
 import com.mushscope.data.source.UserRepository
 
 class AuthViewModel(private val repository: UserRepository) : ViewModel() {
