@@ -35,11 +35,11 @@ class ResultActivity : AppCompatActivity() {
         imageUri?.also {
             Log.d("Image URI", "showImage: $it")
             binding.resultImage.setImageURI(it)
-            analyzeImage(it)
+            setupImageClassifier(it)
         } ?: showToast("Image URI is null.")
     }
 
-    private fun analyzeImage(uriImage: Uri) {
+    private fun setupImageClassifier(uriImage: Uri) {
         imageClassifierHelper = ImageClassifierHelper(
             context = this,
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
@@ -75,9 +75,17 @@ class ResultActivity : AppCompatActivity() {
                         showToast("No results found.")
                     }
                 }
+            },
+            onDownloadSuccess = {
+                Log.d("ModelDownload", "Model downloaded successfully")
+                runOnUiThread {
+                    imageClassifierHelper.classifyStaticImage(uriImage)
+                }
+            },
+            onError = { errorMessage ->
+                Log.e("ModelDownload", "Model download failed: $errorMessage")
             }
         )
-        imageClassifierHelper.classifyStaticImage(uriImage)
     }
 
     private fun saveResultToHistory(uriImage: Uri, predictedLabel: String, confidenceScore: String) {

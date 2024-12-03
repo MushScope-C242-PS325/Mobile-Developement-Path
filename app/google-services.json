@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619887446600",
+    "project_id": "mushscope-3e419",
+    "storage_bucket": "mushscope-3e419.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619887446600:android:a7d1521d31cb5a7b16a67d",
+        "android_client_info": {
+          "package_name": "com.mushscope"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA84gxpIjcuW_oa3EQgS5PLEwS186tZcVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

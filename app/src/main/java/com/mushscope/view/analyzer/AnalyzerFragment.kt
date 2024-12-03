@@ -43,6 +43,11 @@ class AnalyzerFragment : Fragment() {
                 showImage(it)
             }
         }
+
+        viewModel.isModelDownloading.observe(viewLifecycleOwner) { isDownloading ->
+            binding.progressIndicator.visibility = if (isDownloading) View.VISIBLE else View.GONE
+        }
+
         binding.btnGallery.setOnClickListener {
             startGallery()
         }
@@ -51,7 +56,7 @@ class AnalyzerFragment : Fragment() {
         }
         binding.btnAnalyze.setOnClickListener {
             viewModel.currentImgUri.value?.let { uri ->
-                moveToResult(uri)
+                viewModel.prepareModelAndMoveToResult(uri)
             } ?: showToast("Please select an image first.")
         }
     }

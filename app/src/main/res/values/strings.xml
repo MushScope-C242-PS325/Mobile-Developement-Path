@@ -69,4 +69,5 @@
     <string name="logout_confirmation">logout?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="firebaseml_model_download_failed">Model download failed, please check your connection.</string>
 </resources>

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -87,4 +88,7 @@ dependencies {
     implementation(libs.play.services.tflite.impl)
     implementation(libs.play.services.tflite.java)
     implementation(libs.play.services.tflite.gpu)
+
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-ml-modeldownloader:24.2.1")
 }
