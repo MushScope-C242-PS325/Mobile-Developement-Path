@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home"
+        android:textStyle="bold"/>
+
+    <item
+        android:id="@+id/navigation_analyzer"
+        android:icon="@drawable/ic_camera"
+        android:title="@string/title_analyzer"
+        android:textStyle="bold"/>
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_foto_profile"
+        android:title="@string/title_profile"
+        android:textStyle="bold"/>
+
+</menu>
