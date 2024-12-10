@@ -45,29 +45,47 @@ class ImageClassifierHelper(
             }
             TfLite.initialize(context, optionsBuilder.build())
         }.addOnSuccessListener {
-            downloadModel()
+            checkAndDownloadModelIfNecessary()
         }.addOnFailureListener {
             onError(context.getString(R.string.tflite_is_not_initialized_yet))
         }
     }
 
     @Synchronized
-    private fun downloadModel() {
+    private fun checkAndDownloadModelIfNecessary() {
+        // Periksa apakah model sudah ada di assets
+        var isUsingAssetsModel = false
+        try {
+            val assetManager = context.assets
+            val modelInputStream = assetManager.open(modelName)
+            modelInputStream.close() // Jika berhasil dibuka, model tersedia di assets
+
+            // Gunakan model dari assets
+            setupImageClassifier()
+            onDownloadSuccess()
+            isUsingAssetsModel = true
+        } catch (e: IOException) {
+            Log.d("ImageClassifierHelper", "Model tidak ditemukan di assets. Melanjutkan ke Firebase.")
+        }
+
+        // Selalu coba mengunduh model baru dari Firebase jika ada Wi-Fi
         val conditions = CustomModelDownloadConditions.Builder()
             .requireWifi()
             .build()
+
         FirebaseModelDownloader.getInstance()
-            .getModel("Mushscope", DownloadType.LOCAL_MODEL, conditions)
+            .getModel("Mushscope", DownloadType.LATEST_MODEL, conditions)
             .addOnSuccessListener { model: CustomModel ->
-                try {
-                    onDownloadSuccess()
-                    setupImageClassifier(model)
-                } catch (e: IOException) {
-                    onError(e.message.toString())
-                }
+                setupImageClassifier(model)
+                Log.d("ImageClassifierHelper", "Model dari Firebase berhasil digunakan.")
             }
-            .addOnFailureListener { e: Exception? ->
-                onError(context.getString(R.string.firebaseml_model_download_failed))
+            .addOnFailureListener {
+                // Jika unduhan gagal, gunakan model assets sebagai fallback
+                if (isUsingAssetsModel) {
+                    Log.d("ImageClassifierHelper", "Firebase gagal, menggunakan model dari assets.")
+                } else {
+                    onError(context.getString(R.string.firebaseml_model_download_failed))
+                }
             }
     }
 
