@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/delete_history"
+            android:backgroundTint="@color/button_background"
             android:textAllCaps="false"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
