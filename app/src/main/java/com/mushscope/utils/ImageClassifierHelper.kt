@@ -3,6 +3,8 @@ package com.mushscope.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
@@ -36,6 +38,8 @@ class ImageClassifierHelper(
     private val onError: (String) -> Unit
 ) {
     private var imageClassifier: ImageClassifier? = null
+    private var modelLoadedFromAssets = false
+    private var modelLoadedFromFirebase = false
 
     init {
         TfLiteGpu.isGpuDelegateAvailable(context).onSuccessTask { gpuAvailable ->
@@ -45,48 +49,71 @@ class ImageClassifierHelper(
             }
             TfLite.initialize(context, optionsBuilder.build())
         }.addOnSuccessListener {
-            checkAndDownloadModelIfNecessary()
+            loadAppropriateModel()
         }.addOnFailureListener {
             onError(context.getString(R.string.tflite_is_not_initialized_yet))
         }
     }
 
-    @Synchronized
-    private fun checkAndDownloadModelIfNecessary() {
-        // Periksa apakah model sudah ada di assets
-        var isUsingAssetsModel = false
-        try {
-            val assetManager = context.assets
-            val modelInputStream = assetManager.open(modelName)
-            modelInputStream.close() // Jika berhasil dibuka, model tersedia di assets
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
 
-            // Gunakan model dari assets
-            setupImageClassifier()
-            onDownloadSuccess()
-            isUsingAssetsModel = true
-        } catch (e: IOException) {
-            Log.d("ImageClassifierHelper", "Model tidak ditemukan di assets. Melanjutkan ke Firebase.")
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) &&
+                (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    private fun loadAppropriateModel() {
+        if (isNetworkAvailable()) {
+            // Jika ada koneksi internet, coba download model dari Firebase
+            downloadFirebaseModel()
+        } else {
+            // Jika tidak ada internet, gunakan model dari assets
+            loadAssetsModel()
         }
+    }
 
-        // Selalu coba mengunduh model baru dari Firebase jika ada Wi-Fi
-        val conditions = CustomModelDownloadConditions.Builder()
-            .requireWifi()
-            .build()
+    private fun downloadFirebaseModel() {
+        val conditions = CustomModelDownloadConditions.Builder().build()
 
         FirebaseModelDownloader.getInstance()
             .getModel("Mushscope", DownloadType.LATEST_MODEL, conditions)
             .addOnSuccessListener { model: CustomModel ->
-                setupImageClassifier(model)
-                Log.d("ImageClassifierHelper", "Model dari Firebase berhasil digunakan.")
-            }
-            .addOnFailureListener {
-                // Jika unduhan gagal, gunakan model assets sebagai fallback
-                if (isUsingAssetsModel) {
-                    Log.d("ImageClassifierHelper", "Firebase gagal, menggunakan model dari assets.")
-                } else {
-                    onError(context.getString(R.string.firebaseml_model_download_failed))
+                try {
+                    setupImageClassifier(model)
+                    modelLoadedFromFirebase = true
+                    Log.d("ImageClassifierHelper", "Model successfully downloaded from Firebase")
+                    onDownloadSuccess()
+                } catch (e: Exception) {
+                    Log.e("ImageClassifierHelper", "Failed to setup Firebase model: ${e.message}")
+                    // Jika Firebase model gagal, fallback ke model assets
+                    loadAssetsModel()
                 }
             }
+            .addOnFailureListener { exception ->
+                Log.e("ImageClassifierHelper", "Firebase model download failed: ${exception.message}")
+                // Jika download Firebase gagal, gunakan model assets
+                loadAssetsModel()
+            }
+    }
+
+    private fun loadAssetsModel() {
+        try {
+            val assetManager = context.assets
+            val modelInputStream = assetManager.open(modelName)
+            modelInputStream.close()
+
+            setupImageClassifier() // Gunakan model dari assets
+            modelLoadedFromAssets = true
+            Log.d("ImageClassifierHelper", "Model successfully loaded from assets")
+            onDownloadSuccess()
+        } catch (e: IOException) {
+            Log.e("ImageClassifierHelper", "Model not found in assets: ${e.message}")
+            onError(context.getString(R.string.model_load_failed))
+        }
     }
 
     private fun setupImageClassifier(model: CustomModel? = null) {
@@ -97,21 +124,25 @@ class ImageClassifierHelper(
         optionsBuilder.setBaseOptions(baseOptions)
 
         try {
-            imageClassifier = if (model != null && model.file != null) {
+            imageClassifier = if (model != null && model.file != null && model.file!!.exists()) {
+                // Gunakan model Firebase jika tersedia
                 ImageClassifier.createFromFileAndOptions(
                     context,
                     model.file!!.absolutePath,
                     optionsBuilder.build()
                 )
             } else {
+                // Fallback ke model assets
                 ImageClassifier.createFromFileAndOptions(
                     context,
                     modelName,
                     optionsBuilder.build()
                 )
             }
-        } catch (e: IllegalStateException) {
+        } catch (e: Exception) {
+            Log.e("ImageClassifierHelper", "Model setup failed: ${e.message}")
             onError(context.getString(R.string.image_classifier_failed))
+            imageClassifier = null
         }
     }
 

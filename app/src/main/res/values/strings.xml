@@ -80,4 +80,8 @@ been missed!</string>
     <string name="text_edible_mushroom">Jamur tidak beracun adalah jamur yang aman dikonsumsi manusia dan memiliki banyak manfaat kesehatan. Jamur jenis ini sering digunakan sebagai bahan utama dalam berbagai masakan karena selain lezat, juga kaya akan nutrisi, seperti protein nabati, serat, vitamin B, dan mineral seperti selenium dan tembaga. Beberapa jamur tidak beracun, seperti jamur tiram, jamur kancing, dan shiitake, bahkan telah dibudidayakan secara luas untuk memenuhi kebutuhan pangan. Meski umumnya memiliki tampilan yang sederhana dan warna yang netral, beberapa jamur tidak beracun memiliki kemiripan dengan spesies beracun, sehingga identifikasi tetap menjadi hal penting untuk menghindari risiko salah konsumsi. Selain itu, jamur tidak beracun biasanya tumbuh di lingkungan tertentu, seperti kayu lapuk, tanah lembab, atau tumpukan daun, yang menjadi habitat alami mereka. Dengan pengolahan yang tepat, jamur tidak beracun dapat menjadi bahan makanan yang bernutrisi tinggi sekaligus menambah cita rasa dalam berbagai hidangan.</string>
     <string name="poisonous_mushroom_image">poisonous mushroom image</string>
     <string name="edible_mushroom_image">edible mushroom image</string>
+    <string name="profile_title">Profile</string>
+    <string name="home">Home</string>
+    <string name="model_load_failed">Unable to load machine learning model</string>
+    <string name="history">History</string>
 </resources>

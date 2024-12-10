@@ -1,21 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme -->
-    <style name="Base.Theme.MushScope" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.MushScope" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/red_primary</item>
         <item name="colorOnPrimary">@color/red_on_primary</item>
         <item name="colorPrimaryContainer">@color/red_background</item>
         <item name="colorSecondary">@color/red_primary</item>
 
-        <!-- Tambahkan ini untuk Action Bar -->
         <item name="actionBarStyle">@style/ActionBarStyle.MushScope</item>
     </style>
 
     <style name="Theme.MushScope" parent="Base.Theme.MushScope" />
 
-    <!-- Style khusus untuk Action Bar -->
     <style name="ActionBarStyle.MushScope" parent="Widget.AppCompat.ActionBar.Solid">
-        <item name="background">@color/muda_red</item>
+        <item name="background">@color/red_primary</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="titleTextColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 </resources>

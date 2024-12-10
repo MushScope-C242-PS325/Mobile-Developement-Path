@@ -91,4 +91,5 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-ml-modeldownloader:24.2.1")
+
 }

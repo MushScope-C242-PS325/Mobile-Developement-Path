@@ -1,7 +1,10 @@
 package com.mushscope.view.history
 
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,23 +34,26 @@ class HistoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHistoryBinding.inflate(layoutInflater) // Inflate layout
+        binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
 
         setupRecyclerView()
         observeHistoryData()
     }
 
+
     private fun setupRecyclerView() {
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@HistoryActivity) // Gunakan `this@Activity` untuk konteks
+            layoutManager = LinearLayoutManager(this@HistoryActivity)
             adapter = historyAdapter
             setHasFixedSize(true)
         }
     }
 
     private fun observeHistoryData() {
-        viewModel.getHistory().observe(this) { historyList -> // Gunakan `this` sebagai LifecycleOwner
+        viewModel.getHistory().observe(this) { historyList ->
             if (historyList.isNotEmpty()) {
                 historyAdapter.submitList(historyList)
                 showEmptyState(false)

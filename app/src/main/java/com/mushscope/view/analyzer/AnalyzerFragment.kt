@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.mushscope.R
 import com.mushscope.databinding.FragmentAnalyzerBinding
 import com.mushscope.utils.getImageUri
 import com.yalantis.ucrop.UCrop
@@ -30,6 +33,10 @@ class AnalyzerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAnalyzerBinding.inflate(inflater, container, false)
+        val toolbar: Toolbar = binding.root.findViewById(R.id.toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_analyzer)
+
         return binding.root
     }
 

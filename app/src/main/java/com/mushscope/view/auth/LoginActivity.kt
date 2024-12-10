@@ -20,6 +20,7 @@ import com.mushscope.databinding.ActivityLoginBinding
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.view.main.MainActivity
 import com.mushscope.data.source.Result
+import com.mushscope.view.history.HistoryActivity
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<AuthViewModel> {
@@ -101,6 +102,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.tvRegister.setOnClickListener{
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun resetErrorState() {
@@ -163,6 +168,7 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditTextLayout =
             ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(100)
+        val signup = ObjectAnimator.ofFloat(binding.tvRegister, View.ALPHA, 1f).setDuration(100)
 
         AnimatorSet().apply {
             playSequentially(
@@ -172,7 +178,8 @@ class LoginActivity : AppCompatActivity() {
                 emailEditTextLayout,
                 passwordTextView,
                 passwordEditTextLayout,
-                login
+                login,
+                signup
             )
             startDelay = 100
         }.start()

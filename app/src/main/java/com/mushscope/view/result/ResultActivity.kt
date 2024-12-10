@@ -3,6 +3,7 @@ package com.mushscope.view.result
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,6 @@ import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.text.NumberFormat
 
 class ResultActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityResultBinding
     private lateinit var imageClassifierHelper: ImageClassifierHelper
 
@@ -29,6 +29,13 @@ class ResultActivity : AppCompatActivity() {
 
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.progressIndicator.visibility = View.VISIBLE
+        binding.resultImage.visibility = View.GONE
+        binding.resultText.visibility = View.GONE
+        binding.btnSave.visibility = View.GONE
+
+        setSupportActionBar(binding.toolbar)
 
         val imageUri = intent.getStringExtra(EXTRA_IMAGE_URI)?.let { Uri.parse(it) }
 
@@ -44,35 +51,37 @@ class ResultActivity : AppCompatActivity() {
             context = this,
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
                 override fun onError(error: String) {
-                    showToast(error)
+                    runOnUiThread {
+                        binding.progressIndicator.visibility = View.GONE
+                        showToast(error)
+                    }
                 }
 
                 override fun onResults(results: List<Classifications>, inferenceTime: Long) {
-                    Log.d("ImageClassification", "Inference Time: $inferenceTime ms")
+                    runOnUiThread {
+                        binding.progressIndicator.visibility = View.GONE
+                        binding.resultImage.visibility = View.VISIBLE
+                        binding.resultText.visibility = View.VISIBLE
+                        binding.btnSave.visibility = View.VISIBLE
 
-                    if (results.isNotEmpty() && results[0].categories.isNotEmpty()) {
-                        // Log all categories with their scores
-                        results[0].categories.forEachIndexed { index, category ->
-                            Log.d("ImageClassification", "Category $index: Label = ${category.label}, Score = ${category.score}")
+                        Log.d("ImageClassification", "Inference Time: $inferenceTime ms")
+
+                        if (results.isNotEmpty() && results[0].categories.isNotEmpty()) {
+                            val sortedCategories = results[0].categories.sortedByDescending { it.score }
+                            val predictedLabel = sortedCategories[0].label
+                            val confidenceScore = NumberFormat.getPercentInstance()
+                                .format(sortedCategories[0].score)
+                                .trim()
+
+                            binding.resultText.text = getString(R.string.after_analyze, predictedLabel, confidenceScore)
+
+                            binding.btnSave.setOnClickListener {
+                                saveResultToHistory(uriImage, predictedLabel, confidenceScore)
+                            }
+                        } else {
+                            Log.e("ImageClassification", "No classification results found")
+                            showToast("No results found.")
                         }
-
-                        val sortedCategories = results[0].categories.sortedByDescending { it.score }
-                        val predictedLabel = sortedCategories[0].label
-                        val confidenceScore = NumberFormat.getPercentInstance()
-                            .format(sortedCategories[0].score)
-                            .trim()
-
-                        Log.d("ImageClassification", "Predicted Label: $predictedLabel")
-                        Log.d("ImageClassification", "Confidence Score: $confidenceScore")
-
-                        binding.resultText.text = getString(R.string.after_analyze, predictedLabel, confidenceScore)
-
-                        binding.btnSave.setOnClickListener {
-                            saveResultToHistory(uriImage, predictedLabel, confidenceScore)
-                        }
-                    } else {
-                        Log.e("ImageClassification", "No classification results found")
-                        showToast("No results found.")
                     }
                 }
             },
@@ -83,7 +92,10 @@ class ResultActivity : AppCompatActivity() {
                 }
             },
             onError = { errorMessage ->
-                Log.e("ModelDownload", "Model download failed: $errorMessage")
+                runOnUiThread {
+                    binding.progressIndicator.visibility = View.GONE
+                    Log.e("ModelDownload", "Model download failed: $errorMessage")
+                }
             }
         )
     }

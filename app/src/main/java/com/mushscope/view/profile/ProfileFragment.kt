@@ -6,7 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mushscope.R
@@ -31,6 +35,12 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        // Set up Toolbar as ActionBar
+        val toolbar: Toolbar = binding.root.findViewById(R.id.toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.profile_title)
+
         return binding.root
     }
 
@@ -69,12 +79,14 @@ class ProfileFragment : Fragment() {
 
         // Set the click listener for the history button
         binding.btnHistory.setOnClickListener {
+            animateButton(binding.btnHistory) // Animasi tombol
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }
 
-        // Set the click listener for the logout button
+        // Set the click listener for the logout button with animation
         binding.btnLogout.setOnClickListener {
+            animateButton(binding.btnLogout) // Animasi tombol
             showLogoutConfirmationDialog()
         }
     }
@@ -92,6 +104,44 @@ class ProfileFragment : Fragment() {
             create()
             show()
         }
+    }
+
+    private fun animateButton(button: View) {
+        val scaleAnimation = ScaleAnimation(
+            1f, 0.9f, 1f, 0.9f, // Membesar
+            Animation.RELATIVE_TO_SELF, 0.5f, // Titik pusat animasi horizontal
+            Animation.RELATIVE_TO_SELF, 0.5f  // Titik pusat animasi vertikal
+        ).apply {
+            duration = 50 // Durasi animasi
+            repeatCount = 0 // Tidak ada pengulangan animasi
+            fillAfter = true // Agar animasi tetap pada ukuran akhir setelah selesai
+        }
+
+        scaleAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {
+                // Bisa menambahkan logika lain jika perlu
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                // Kembali ke ukuran normal setelah animasi selesai
+                button.postDelayed({
+                    val resetAnimation = ScaleAnimation(
+                        0.9f, 1f, 0.9f, 1f, // Kembali ke ukuran asli
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f
+                    ).apply {
+                        duration = 50
+                    }
+                    button.startAnimation(resetAnimation)
+                }, 50) // Memberi sedikit delay sebelum animasi kembali ke normal
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+                // Tidak digunakan dalam kasus ini
+            }
+        })
+
+        button.startAnimation(scaleAnimation)
     }
 
     override fun onDestroyView() {

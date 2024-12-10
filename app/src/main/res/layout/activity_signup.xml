@@ -29,9 +29,9 @@
         android:alpha="0"
         android:gravity="center"
         android:text="@string/title_signup_page"
-        android:textColor="#A80000"
+        android:textColor="@color/red_primary"
         android:textSize="20sp"
-        android:textStyle="bold"
+        style="@style/PoppinsTextBold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +47,7 @@
         android:alpha="0"
         android:text="@string/name"
         android:textColor="@color/black"
+        style="@style/PoppinsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_signup"
         tools:alpha="100" />
@@ -84,6 +85,7 @@
         android:alpha="0"
         android:text="@string/email"
         android:textColor="@color/black"
+        style="@style/PoppinsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout"
         tools:alpha="100" />
@@ -121,6 +123,7 @@
         android:alpha="0"
         android:text="@string/password"
         android:textColor="@color/black"
+        style="@style/PoppinsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         tools:alpha="100" />
@@ -159,6 +162,7 @@
         android:alpha="0"
         android:text="@string/confirm_password"
         android:textColor="@color/black"
+        style="@style/PoppinsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
         tools:alpha="100" />
@@ -198,6 +202,7 @@
         android:alpha="0"
         android:text="@string/signup"
         android:backgroundTint="@color/button_background"
+        style="@style/PoppinsText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmEditTextLayout"
@@ -216,6 +221,7 @@
         android:gravity="center"
         android:clickable="true"
         android:focusable="true"
+        style="@style/PoppinsTextBold"
         app:layout_constraintTop_toBottomOf="@id/signupButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -248,4 +254,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

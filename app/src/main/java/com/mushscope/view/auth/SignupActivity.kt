@@ -2,6 +2,7 @@ package com.mushscope.view.auth
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -164,6 +165,10 @@ class SignupActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.tvLogin.setOnClickListener{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -226,6 +231,7 @@ class SignupActivity : AppCompatActivity() {
         val confirmTextView = ObjectAnimator.ofFloat(binding.tvConfirm, View.ALPHA, 1f).setDuration(100)
         val confirmEditTextLayout = ObjectAnimator.ofFloat(binding.confirmEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(100)
+        val login = ObjectAnimator.ofFloat(binding.tvLogin, View.ALPHA, 1f).setDuration(100)
 
         AnimatorSet().apply {
             playSequentially(
@@ -238,7 +244,8 @@ class SignupActivity : AppCompatActivity() {
                 passwordEditTextLayout,
                 confirmTextView,
                 confirmEditTextLayout,
-                signup
+                signup,
+                login
             )
             startDelay = 100
         }.start()
