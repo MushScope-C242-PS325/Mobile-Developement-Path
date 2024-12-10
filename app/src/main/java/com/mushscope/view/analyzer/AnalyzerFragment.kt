@@ -1,7 +1,6 @@
 package com.mushscope.view.analyzer
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mushscope.databinding.FragmentAnalyzerBinding
 import com.mushscope.utils.getImageUri
-import com.mushscope.view.result.ResultActivity
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
@@ -122,13 +120,6 @@ class AnalyzerFragment : Fragment() {
     private fun showImage(uri: Uri) {
         Log.d("Image URI", "showImage: $uri")
         binding.imgPreview.setImageURI(uri)
-    }
-
-    private fun moveToResult(uri: Uri) {
-        val intent = Intent(requireActivity(), ResultActivity::class.java).apply {
-            putExtra(ResultActivity.EXTRA_IMAGE_URI, uri.toString())
-        }
-        startActivity(intent)
     }
 
     private fun showToast(message: String) {

@@ -3,14 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="button_background">#A80000</color>
+    <color name="muda_red">#FF9595</color>
     <color name="red_primary">#A80000</color>
-    <color name="red_on_primary">#FFFFFF</color> <!-- Warna teks/ikon di atas warna merah -->
-    <color name="red_background">#FFE5E5</color> <!-- (Opsional) warna background -->
+    <color name="red_on_primary">#FFFFFF</color>
+    <color name="red_background">#FFE5E5</color>
     <color name="button_text_color">#FFFFFF</color>
-    <color name="text_color">#000000</color> <!-- Teks berwarna hitam untuk Mode Terang -->
-
-
-    <color name="bottom_nav_background">#121212</color> <!-- Warna hitam untuk mode gelap -->
+    <color name="text_color">#000000</color>
+    <color name="bottom_nav_background">#121212</color>
 </resources>
 
 

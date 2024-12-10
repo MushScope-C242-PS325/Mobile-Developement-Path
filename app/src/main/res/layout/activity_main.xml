@@ -5,17 +5,17 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize">
+    android:background="@drawable/mushroom_pattern">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:background="@color/white"
         app:itemIconTint="@color/nav_item_color_selector"
         app:itemTextColor="@color/nav_item_color_selector"
         app:menu="@menu/bottom_nav_menu"
+        app:backgroundTint="@color/muda_red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -6,17 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".view.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingBottom="80dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/image_mushroom_header"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/mush2"
+                android:contentDescription="@string/header_image" />
+
+            <TextView
+                android:id="@+id/text_title_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ensiklopedia_mushroom"
+                android:textColor="@color/red_primary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/text_description_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/text_mushroom_header"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/text_poisonous_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/poisonous_mushroom"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/red_primary" />
+
+            <ImageView
+                android:id="@+id/image_poisonous_mushroom"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/poison"
+                android:contentDescription="@string/poisonous_mushroom_image" />
+
+            <TextView
+                android:id="@+id/text_poisonous_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/text_poisonous_mushroom"
+                android:textSize="16sp"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/text_edible_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/edible_mushroom"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/red_primary" />
+
+            <ImageView
+                android:id="@+id/image_edible_mushroom"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/enoki"
+                android:contentDescription="@string/edible_mushroom_image" />
+
+            <TextView
+                android:id="@+id/text_edible_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/text_edible_mushroom"
+                android:textSize="16sp"
+                android:textColor="#666666" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
