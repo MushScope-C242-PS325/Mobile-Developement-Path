@@ -34,6 +34,8 @@ class ResultActivity : AppCompatActivity() {
         binding.resultImage.visibility = View.GONE
         binding.resultText.visibility = View.GONE
         binding.btnSave.visibility = View.GONE
+        binding.imgResultIcon.visibility = View.GONE
+        binding.mcResult.visibility = View.GONE
 
         setSupportActionBar(binding.toolbar)
 
@@ -63,6 +65,8 @@ class ResultActivity : AppCompatActivity() {
                         binding.resultImage.visibility = View.VISIBLE
                         binding.resultText.visibility = View.VISIBLE
                         binding.btnSave.visibility = View.VISIBLE
+                        binding.imgResultIcon.visibility = View.VISIBLE
+                        binding.mcResult.visibility = View.VISIBLE
 
                         Log.d("ImageClassification", "Inference Time: $inferenceTime ms")
 
@@ -72,6 +76,21 @@ class ResultActivity : AppCompatActivity() {
                             val confidenceScore = NumberFormat.getPercentInstance()
                                 .format(sortedCategories[0].score)
                                 .trim()
+
+                            when (predictedLabel) {
+                                "poisonous" -> {
+                                    Log.d("ImageClassification", "Predicted Label: $predictedLabel")
+                                    binding.imgResultIcon.setImageResource(R.drawable.ic_warning)
+                                    binding.mcResult.setCardBackgroundColor(getColor(R.color.red_primary))
+                                    binding.resultText.setTextColor(getColor(android.R.color.white))
+                                }
+                                else -> {
+                                    Log.d("ImageClassification", "Predicted Label: $predictedLabel")
+                                    binding.imgResultIcon.setImageResource(R.drawable.ic_save)
+                                    binding.mcResult.setCardBackgroundColor(getColor(R.color.green_primary))
+                                    binding.resultText.setTextColor(getColor(android.R.color.white))
+                                }
+                            }
 
                             binding.resultText.text = getString(R.string.after_analyze, predictedLabel, confidenceScore)
 

@@ -38,26 +38,72 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/result_image"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_place_holder"
-                android:elevation="4dp"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/result_text"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/result"
-                android:textSize="18sp"
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/PoppinsTextBold"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"/>
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@color/red_primary"
+                app:strokeWidth="1dp"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/result_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="350dp"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/ic_place_holder"
+                        android:elevation="4dp"
+                        tools:src="@tools:sample/avatars" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mc_result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardElevation="4dp"
+                        app:cardCornerRadius="8dp"
+                        app:strokeWidth="1dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_gravity="center">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
+
+                            <ImageView
+                                android:id="@+id/img_result_icon"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_marginBottom="8dp"
+                                app:layout_constraintBottom_toTopOf="@+id/result_text"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:src="@tools:sample/avatars" />
+
+                            <TextView
+                                android:id="@+id/result_text"
+                                style="@style/PoppinsTextBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/result"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/img_result_icon" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_save"
@@ -80,7 +126,6 @@
                         android:text="@string/save_result"
                         style="@style/PoppinsText"
                         android:textAppearance="?attr/textAppearanceButton"
-                        android:textColor="@color/red_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
@@ -88,7 +133,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_save"
+                        android:src="@drawable/baseline_save_alt_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"

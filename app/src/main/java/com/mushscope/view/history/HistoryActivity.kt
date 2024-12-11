@@ -89,7 +89,6 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun deleteHistory(history: HistoryEntity) {
         viewModel.deleteHistory(history)
-        // Delete the image file
         val imageFile = File(history.imagePath)
         if (imageFile.exists()) {
             imageFile.delete()

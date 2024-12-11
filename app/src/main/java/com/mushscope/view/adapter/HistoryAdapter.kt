@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.mushscope.R
 import com.mushscope.data.local.entity.HistoryEntity
 import com.mushscope.databinding.HistoryItemBinding
 import com.mushscope.view.animation.animateButton
 import java.io.File
+import androidx.core.content.ContextCompat
 
 class HistoryAdapter : ListAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
-
     var onDeleteClick: ((HistoryEntity) -> Unit)? = null
 
     inner class ViewHolder(private val binding: HistoryItemBinding) :
@@ -26,9 +27,28 @@ class HistoryAdapter : ListAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIF
                 }
 
                 val resultWithConfidence = "${history.result}\n${history.confidenceScore}"
-                tvDescriptionHistory.text = resultWithConfidence
+                resultText.text = resultWithConfidence
 
-                imgHistory.contentDescription = resultWithConfidence
+                when (history.result?.replace("Result: ", "")?.trim()?.lowercase()) {
+                    "poisonous" -> {
+                        binding.imgResultIcon.setImageResource(R.drawable.ic_warning)
+                        binding.mcResultHistory.setCardBackgroundColor(
+                            ContextCompat.getColor(binding.root.context, R.color.red_primary)
+                        )
+                        binding.resultText.setTextColor(
+                            ContextCompat.getColor(binding.root.context, android.R.color.white)
+                        )
+                    }
+                    else -> {
+                        binding.imgResultIcon.setImageResource(R.drawable.ic_save)
+                        binding.mcResultHistory.setCardBackgroundColor(
+                            ContextCompat.getColor(binding.root.context, R.color.green_primary)
+                        )
+                        binding.resultText.setTextColor(
+                            ContextCompat.getColor(binding.root.context, android.R.color.white)
+                        )
+                    }
+                }
 
                 btnDelete.setOnClickListener {
                     animateButton(binding.btnDelete)

@@ -1,15 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme -->
     <style name="Base.Theme.MushScope" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/red_primary</item>
         <item name="colorOnPrimary">@color/red_on_primary</item>
         <item name="colorPrimaryContainer">@color/red_background</item>
         <item name="colorSecondary">@color/red_primary</item>
-
         <item name="actionBarStyle">@style/ActionBarStyle.MushScope</item>
     </style>
 
     <style name="Theme.MushScope" parent="Base.Theme.MushScope" />
+
+    <style name="PoppinsText">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/red_primary</item>
+    </style>
+    <style name="PoppinsTextBold">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textColor">@color/red_primary</item>
+    </style>
+    <style name="PoppinsTextItalic">
+        <item name="android:fontFamily">@font/poppins_italic</item>
+        <item name="android:textColor">@color/red_primary</item>
+    </style>
 
     <style name="ActionBarStyle.MushScope" parent="Widget.AppCompat.ActionBar.Solid">
         <item name="background">@color/red_primary</item>
