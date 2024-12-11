@@ -7,11 +7,11 @@ This repository is dedicated to projects, resources, and learning materials for 
 
 ### 🛠️ Features  
 - Contains various projects and code samples related to **mobile development**.  
-- Includes resources for building Android apps using **Kotlin**, **Android Studiok**, and **modern development practices**.  
+- Includes resources for building Android apps using **Kotlin**, **Android Studio**, and **modern development practices**.  
 
 ---
 
 ### 👩‍💻 Technologies Used  
 - **Language**: Kotlin  
-- **Frameworks/Tools**: Android Studio, Retrofit, Picasso...
+- **Frameworks/Tools/library**: Android Studio, Retrofit, Picasso, uCrop, Postman, Firebase...
 - **Version Control**: Git and GitHub  
