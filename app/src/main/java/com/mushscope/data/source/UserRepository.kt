@@ -88,7 +88,7 @@ class UserRepository private constructor(
         }
     }
 
-    suspend fun saveSession(user: UserModel) {
+    private suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
 

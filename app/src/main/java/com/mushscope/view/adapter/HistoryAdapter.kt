@@ -29,7 +29,7 @@ class HistoryAdapter : ListAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIF
                 val resultWithConfidence = "${history.result}\n${history.confidenceScore}"
                 resultText.text = resultWithConfidence
 
-                when (history.result?.replace("Result: ", "")?.trim()?.lowercase()) {
+                when (history.result.replace("Result: ", "").trim().lowercase()) {
                     "poisonous" -> {
                         binding.imgResultIcon.setImageResource(R.drawable.ic_warning)
                         binding.mcResultHistory.setCardBackgroundColor(
