@@ -58,7 +58,7 @@ class SignupActivity : AppCompatActivity() {
             }
         } else if (result.resultCode == UCrop.RESULT_ERROR) {
             UCrop.getError(result.data!!)?.let { error ->
-                showError("Crop Error", error.message.toString())
+                showError(getString(R.string.crop_error), error.message.toString())
             }
         }
     }
@@ -142,7 +142,7 @@ class SignupActivity : AppCompatActivity() {
                             is Result.Success -> {
                                 showLoading(false)
                                 AlertDialog.Builder(this).apply {
-                                    setTitle("Yeah!")
+                                    setTitle("Horayy!!")
                                     setMessage(getString(R.string.account_cretaed_message, email))
                                     setPositiveButton(getString(R.string.enter)) { _, _ ->
                                         finish()
@@ -160,7 +160,8 @@ class SignupActivity : AppCompatActivity() {
                             }
                             else -> {
                                 showLoading(false)
-                                showError("Unknown Error", "An unexpected error occurred")
+                                showError(getString(R.string.unknown_error),
+                                    getString(R.string.an_unexpected_error_occurred))
                             }
                         }
                     })

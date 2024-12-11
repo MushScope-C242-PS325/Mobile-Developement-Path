@@ -1,4 +1,5 @@
 package com.mushscope.view.result
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mushscope.data.local.entity.HistoryEntity

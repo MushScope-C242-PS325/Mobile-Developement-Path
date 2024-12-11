@@ -6,36 +6,35 @@ import android.view.animation.ScaleAnimation
 
 fun animateButton(button: View) {
     val scaleAnimation = ScaleAnimation(
-        1f, 0.9f, 1f, 0.9f, // Membesar
-        Animation.RELATIVE_TO_SELF, 0.5f, // Titik pusat animasi horizontal
-        Animation.RELATIVE_TO_SELF, 0.5f  // Titik pusat animasi vertikal
+        1f, 0.9f, 1f, 0.9f,
+        Animation.RELATIVE_TO_SELF, 0.5f,
+        Animation.RELATIVE_TO_SELF, 0.5f
     ).apply {
-        duration = 50 // Durasi animasi
-        repeatCount = 0 // Tidak ada pengulangan animasi
-        fillAfter = true // Agar animasi tetap pada ukuran akhir setelah selesai
+        duration = 50
+        repeatCount = 0
+        fillAfter = true
     }
 
     scaleAnimation.setAnimationListener(object : Animation.AnimationListener {
         override fun onAnimationStart(animation: Animation?) {
-            // Bisa menambahkan logika lain jika perlu
+            // nothing
         }
 
         override fun onAnimationEnd(animation: Animation?) {
-            // Kembali ke ukuran normal setelah animasi selesai
             button.postDelayed({
                 val resetAnimation = ScaleAnimation(
-                    0.9f, 1f, 0.9f, 1f, // Kembali ke ukuran asli
+                    0.9f, 1f, 0.9f, 1f,
                     Animation.RELATIVE_TO_SELF, 0.5f,
                     Animation.RELATIVE_TO_SELF, 0.5f
                 ).apply {
                     duration = 50
                 }
                 button.startAnimation(resetAnimation)
-            }, 50) // Memberi sedikit delay sebelum animasi kembali ke normal
+            }, 50)
         }
 
         override fun onAnimationRepeat(animation: Animation?) {
-            // Tidak digunakan dalam kasus ini
+            // nothing
         }
     })
 

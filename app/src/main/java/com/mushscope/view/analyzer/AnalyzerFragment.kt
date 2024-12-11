@@ -22,11 +22,9 @@ import com.yalantis.ucrop.UCrop
 import java.io.File
 
 class AnalyzerFragment : Fragment() {
-
     private var _binding: FragmentAnalyzerBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnalyzerViewModel by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +64,7 @@ class AnalyzerFragment : Fragment() {
             animateButton(binding.btnAnalyze)
             viewModel.currentImgUri.value?.let { uri ->
                 viewModel.prepareModelAndMoveToResult(uri)
-            } ?: showToast("Please select an image first.")
+            } ?: showToast(getString(R.string.please_select_an_image_first))
         }
     }
 

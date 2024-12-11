@@ -20,7 +20,6 @@ import java.text.NumberFormat
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
     private lateinit var imageClassifierHelper: ImageClassifierHelper
-
     private val viewModel: ResultViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
@@ -82,7 +81,7 @@ class ResultActivity : AppCompatActivity() {
                             }
                         } else {
                             Log.e("ImageClassification", "No classification results found")
-                            showToast("No results found.")
+                            showToast(getString(R.string.no_results_found))
                         }
                     }
                 }
@@ -109,7 +108,7 @@ class ResultActivity : AppCompatActivity() {
             imagePath = uriToFile(uriImage, this).toString()
         )
         viewModel.insertHistory(history)
-        showToast("Result is saved to History")
+        showToast(getString(R.string.result_is_saved_to_history))
         finish()
     }
 

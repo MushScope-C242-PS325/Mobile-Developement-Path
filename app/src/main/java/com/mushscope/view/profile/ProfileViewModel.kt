@@ -13,7 +13,6 @@ class ProfileViewModel(
     private val pref: ThemePreference,
     private val userRepository: UserRepository
 ) : ViewModel() {
-
     fun getThemeSettings(): LiveData<Boolean> {
         return pref.getThemeSetting().asLiveData()
     }
@@ -29,6 +28,7 @@ class ProfileViewModel(
             userRepository.logout()
         }
     }
+
     fun getUserSession(): LiveData<UserModel> {
         return userRepository.getSession().asLiveData()
     }

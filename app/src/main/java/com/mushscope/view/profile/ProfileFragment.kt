@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 class ProfileFragment : Fragment() {
-
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -57,10 +56,9 @@ class ProfileFragment : Fragment() {
                     .load(userModel.photoUrl)
                     .placeholder(R.drawable.ic_foto_profile)
                     .error(R.drawable.ic_foto_profile)
-                    .transform(CropCircleTransformation()) // Apply circle transformation
+                    .transform(CropCircleTransformation())
                     .into(binding.imgProfile)
             } else {
-                // If no photo URL, set the default profile image
                 binding.imgProfile.setImageResource(R.drawable.ic_foto_profile)
             }
         }
@@ -77,7 +75,7 @@ class ProfileFragment : Fragment() {
 
         // Set the click listener for the history button
         binding.btnHistory.setOnClickListener {
-            animateButton(binding.btnHistory) // Animasi tombol
+            animateButton(binding.btnHistory)
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }

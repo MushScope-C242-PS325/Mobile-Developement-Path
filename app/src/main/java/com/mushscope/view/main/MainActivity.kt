@@ -2,8 +2,6 @@ package com.mushscope.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.animation.ScaleAnimation
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
-
-    private var lastSelectedItem: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Set theme based on preferences

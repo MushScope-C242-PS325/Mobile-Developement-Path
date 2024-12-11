@@ -21,7 +21,6 @@ import com.mushscope.utils.ViewModelFactory
 import com.mushscope.view.main.MainActivity
 import com.mushscope.data.source.Result
 import com.mushscope.view.animation.animateButton
-import com.mushscope.view.history.HistoryActivity
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<AuthViewModel> {
@@ -80,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                             is Result.Success -> {
                                 showLoading(false)
                                 AlertDialog.Builder(this).apply {
-                                    setTitle("Yeah!")
+                                    setTitle("Horayy!!")
                                     setMessage(getString(R.string.message_after_login))
                                     setPositiveButton(getString(R.string.enter)) { _, _ ->
                                         val intent = Intent(context, MainActivity::class.java)

@@ -68,10 +68,8 @@ class ImageClassifierHelper(
 
     private fun loadAppropriateModel() {
         if (isNetworkAvailable()) {
-            // Jika ada koneksi internet, coba download model dari Firebase
             downloadFirebaseModel()
         } else {
-            // Jika tidak ada internet, gunakan model dari assets
             loadAssetsModel()
         }
     }
@@ -89,13 +87,11 @@ class ImageClassifierHelper(
                     onDownloadSuccess()
                 } catch (e: Exception) {
                     Log.e("ImageClassifierHelper", "Failed to setup Firebase model: ${e.message}")
-                    // Jika Firebase model gagal, fallback ke model assets
                     loadAssetsModel()
                 }
             }
             .addOnFailureListener { exception ->
                 Log.e("ImageClassifierHelper", "Firebase model download failed: ${exception.message}")
-                // Jika download Firebase gagal, gunakan model assets
                 loadAssetsModel()
             }
     }
@@ -106,7 +102,7 @@ class ImageClassifierHelper(
             val modelInputStream = assetManager.open(modelName)
             modelInputStream.close()
 
-            setupImageClassifier() // Gunakan model dari assets
+            setupImageClassifier()
             modelLoadedFromAssets = true
             Log.d("ImageClassifierHelper", "Model successfully loaded from assets")
             onDownloadSuccess()
@@ -125,14 +121,12 @@ class ImageClassifierHelper(
 
         try {
             imageClassifier = if (model != null && model.file != null && model.file!!.exists()) {
-                // Gunakan model Firebase jika tersedia
                 ImageClassifier.createFromFileAndOptions(
                     context,
                     model.file!!.absolutePath,
                     optionsBuilder.build()
                 )
             } else {
-                // Fallback ke model assets
                 ImageClassifier.createFromFileAndOptions(
                     context,
                     modelName,
