@@ -10,6 +10,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.mushscope.databinding.ActivityWelcomeBinding
+import com.mushscope.view.animation.animateButton
 import com.mushscope.view.auth.LoginActivity
 import com.mushscope.view.auth.SignupActivity
 
@@ -41,10 +42,12 @@ class WelcomeActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
+            animateButton(binding.btnLogin)
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
         binding.btnSignup.setOnClickListener {
+            animateButton(binding.btnSignup)
             startActivity(Intent(this, SignupActivity::class.java))
         }
     }

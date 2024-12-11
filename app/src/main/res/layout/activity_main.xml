@@ -16,7 +16,7 @@
         app:itemTextColor="@color/nav_item_color_selector"
         app:menu="@menu/bottom_nav_menu"
         app:backgroundTint="@color/red_primary"
-        app:itemActiveIndicatorStyle="@color/button_background"
+        app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

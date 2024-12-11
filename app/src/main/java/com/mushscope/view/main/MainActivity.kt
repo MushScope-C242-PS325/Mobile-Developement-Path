@@ -63,49 +63,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Setup navigation with animation
+        // Setup navigation
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
-
-        navView.setOnItemSelectedListener { menuItem ->
-            // Reset the previous selected item's animation
-            lastSelectedItem?.let { resetBottomNavItem(it) }
-
-            // Animate the currently selected item
-            val clickedView: View = navView.findViewById(menuItem.itemId)
-            animateBottomNavItem(clickedView)
-            lastSelectedItem = clickedView
-
-            // Navigate to the selected destination
-            navController.navigate(menuItem.itemId)
-            true
-        }
-    }
-
-    private fun animateBottomNavItem(view: View) {
-        val scaleAnimation = ScaleAnimation(
-            1f, 1.2f,  // Skala horizontal: 100% ke 120%
-            1f, 1.2f,  // Skala vertikal: 100% ke 120%
-            ScaleAnimation.RELATIVE_TO_SELF, 0.5f, // Titik pusat horizontal
-            ScaleAnimation.RELATIVE_TO_SELF, 0.5f  // Titik pusat vertikal
-        ).apply {
-            duration = 150 // Durasi animasi
-            fillAfter = true // Tetap pada posisi akhir setelah animasi
-        }
-        view.startAnimation(scaleAnimation)
-    }
-
-    private fun resetBottomNavItem(view: View) {
-        val scaleAnimation = ScaleAnimation(
-            1.2f, 1f,  // Skala horizontal: 120% kembali ke 100%
-            1.2f, 1f,  // Skala vertikal: 120% kembali ke 100%
-            ScaleAnimation.RELATIVE_TO_SELF, 0.5f, // Titik pusat horizontal
-            ScaleAnimation.RELATIVE_TO_SELF, 0.5f  // Titik pusat vertikal
-        ).apply {
-            duration = 150 // Durasi animasi
-            fillAfter = true // Tetap pada posisi akhir setelah animasi
-        }
-        view.startAnimation(scaleAnimation)
     }
 }

@@ -20,6 +20,7 @@ import com.mushscope.databinding.ActivityLoginBinding
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.view.main.MainActivity
 import com.mushscope.data.source.Result
+import com.mushscope.view.animation.animateButton
 import com.mushscope.view.history.HistoryActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -53,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
+            animateButton(binding.btnLogin)
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 

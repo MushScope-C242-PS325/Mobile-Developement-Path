@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mushscope.data.local.entity.HistoryEntity
 import com.mushscope.databinding.HistoryItemBinding
+import com.mushscope.view.animation.animateButton
 import java.io.File
 
 class HistoryAdapter : ListAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -30,6 +31,7 @@ class HistoryAdapter : ListAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIF
                 imgHistory.contentDescription = resultWithConfidence
 
                 btnDelete.setOnClickListener {
+                    animateButton(binding.btnDelete)
                     onDeleteClick?.invoke(history)
                 }
             }

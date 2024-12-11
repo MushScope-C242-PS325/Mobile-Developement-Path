@@ -84,4 +84,5 @@ been missed!</string>
     <string name="home">Home</string>
     <string name="model_load_failed">Unable to load machine learning model</string>
     <string name="history">History</string>
+    <string name="no_image_selected">No image selected.</string>
 </resources>

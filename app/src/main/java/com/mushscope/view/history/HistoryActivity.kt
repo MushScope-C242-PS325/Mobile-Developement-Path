@@ -1,10 +1,7 @@
 package com.mushscope.view.history
 
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager

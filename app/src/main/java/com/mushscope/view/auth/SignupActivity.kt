@@ -22,6 +22,7 @@ import com.mushscope.utils.ViewModelFactory
 import com.mushscope.data.source.Result
 import com.mushscope.utils.uriToFile
 import com.mushscope.utils.reduceFileImage
+import com.mushscope.view.animation.animateButton
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
@@ -105,6 +106,7 @@ class SignupActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.signupButton.setOnClickListener {
+            animateButton(binding.signupButton)
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()

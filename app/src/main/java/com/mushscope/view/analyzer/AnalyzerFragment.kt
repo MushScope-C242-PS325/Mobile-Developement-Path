@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import com.mushscope.R
 import com.mushscope.databinding.FragmentAnalyzerBinding
 import com.mushscope.utils.getImageUri
+import com.mushscope.view.animation.animateButton
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
@@ -54,12 +55,15 @@ class AnalyzerFragment : Fragment() {
         }
 
         binding.btnGallery.setOnClickListener {
+            animateButton(binding.btnGallery)
             startGallery()
         }
         binding.btnCamera.setOnClickListener {
+            animateButton(binding.btnCamera)
             startCamera()
         }
         binding.btnAnalyze.setOnClickListener {
+            animateButton(binding.btnAnalyze)
             viewModel.currentImgUri.value?.let { uri ->
                 viewModel.prepareModelAndMoveToResult(uri)
             } ?: showToast("Please select an image first.")
@@ -77,7 +81,7 @@ class AnalyzerFragment : Fragment() {
             launchUcrop(uri)
         } else {
             Log.d("Photo Picker", "No media selected")
-            showToast("No image selected.")
+            showToast(getString(R.string.no_image_selected))
         }
     }
 

@@ -13,6 +13,7 @@ import com.mushscope.databinding.ActivityResultBinding
 import com.mushscope.utils.ImageClassifierHelper
 import com.mushscope.utils.ViewModelFactory
 import com.mushscope.utils.uriToFile
+import com.mushscope.view.animation.animateButton
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.text.NumberFormat
 
@@ -76,6 +77,7 @@ class ResultActivity : AppCompatActivity() {
                             binding.resultText.text = getString(R.string.after_analyze, predictedLabel, confidenceScore)
 
                             binding.btnSave.setOnClickListener {
+                                animateButton(binding.btnSave)
                                 saveResultToHistory(uriImage, predictedLabel, confidenceScore)
                             }
                         } else {
