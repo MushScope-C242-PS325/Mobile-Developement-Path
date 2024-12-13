@@ -41,13 +41,9 @@ To contribute to this project or work on it locally, you can either fork the rep
 1. Copy the repository URL from the GitHub page (use the Code button to get the URL).
 2. Open your terminal/command line and run:
     ```bash
-    git clone https://github.com/your-username/repository-name.git
+    git clone https://github.com/MushScope-C242-PS325/Mobile-Development-Path.git
     ```
-3. Navigate to the project directory:
-    ```bash
-    cd repository-name
-    ```
-4. Open the project in Android Studio or your preferred IDE and start contributing!
+3. Open the project in Android Studio or your preferred IDE and start contributing!
 
 ### 🔄 Keep Your Fork Updated
 If you've forked the repository, follow these steps to sync your fork with the original repository:
